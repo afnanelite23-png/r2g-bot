@@ -259,9 +259,9 @@ class TicketSelect(discord.ui.Select):
         discord.SelectOption(label="Support", description="General assistance and questions", emoji="🛠️"),
         discord.SelectOption(label="Report", description="Report a user or staff member", emoji="🚨"),
         discord.SelectOption(label="Giveaway Claim", description="Claim a won giveaway prize", emoji="🎁"),
-        discord.SelectOption(label="Giveaway Host", description="Coordinate hosting a giveaway", emoji="🎉"),
+        discord.SelectOption(label="Sell", description="Sell item", emoji="📢"),
         discord.SelectOption(label="Ads/Partnerships", description="Inquiries regarding advertisements or partnerships", emoji="🤝"),
-        discord.SelectOption(label="Decompile", description="Request code decompilation or uncopylocked file help", emoji="💻"),
+        discord.SelectOption(label="Buy", description="Buy item", emoji="💸"),
     ]
     super().__init__(placeholder="Select a ticket category...", min_values=1, max_values=1, options=options, custom_id="ticket_dropdown")
 
