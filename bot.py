@@ -9,7 +9,7 @@ import discord
 from discord.ext import commands, tasks
 from flask import Flask
 
-# --- Flask Server for Render/UptimeRobot 24/7 Uptime ---
+
 app = Flask(__name__)
 
 
@@ -23,13 +23,13 @@ def run_flask():
   app.run(host="0.0.0.0", port=port)
 
 
-# --- Bot Setup ---
+
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
 intents.guilds = True
 
-# Prefix set to ">"
+
 bot = commands.Bot(command_prefix=">", intents=intents, help_command=None)
 
 CONFIG_FILE = "config.json"
@@ -87,9 +87,6 @@ def set_config(guild_id, key, value):
   save_data(data)
 
 
-# --- Rate-limit-safe webhook logging ---
-# Logs are queued and sent in batches (up to 10 embeds per webhook request).
-# This greatly reduces Discord API requests when a server is busy.
 _log_webhook_queue = defaultdict(deque)
 _log_webhook_task = None
 
@@ -115,7 +112,7 @@ async def _flush_log_webhooks():
       if not url:
         continue
 
-      # Send in batches of 10 embeds, the Discord webhook maximum.
+      
       while queue:
         batch = []
         while queue and len(batch) < 10:
@@ -130,7 +127,7 @@ async def _flush_log_webhooks():
           )
         except Exception as exc:
           print(f"Log webhook error for {guild.name} ({guild.id}): {exc}")
-          # Do not keep retrying the same failed batch forever.
+          
           break
 
 
@@ -140,13 +137,13 @@ async def send_log(guild, embed):
 
   if url:
     queue = _log_webhook_queue[guild.id]
-    # Prevent unlimited memory growth during an outage.
+   
     if len(queue) >= 5000:
       queue.popleft()
     queue.append(embed)
     return
 
-  # Existing channel logging remains available if no webhook is configured.
+  
   log_channel_id = get_config(guild.id, "log_channel")
   if log_channel_id:
     channel = guild.get_channel(int(log_channel_id))
